@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.card_female,
+.card_male,
+.ken_map,
+.area_barchart,
+.clustered_barchart {
+    background-color: rgb(251, 250, 252);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.container {
+    /* background-color: black; */
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card_male {
+    width: 14rem;
+}
+
+.card_female_male {
+    display: flex;
+}
+
+.ken_map {
+    width: 33rem;
+    margin-left: 2rem;
+    height: 5rem;
+    position: relative;
+}
+
+#container_map {
+    height: 19rem;
+}
+
+.card_female {
+    margin-right: 2rem;
+    width: 14rem;
+}
+
+#myChart,
+#myChartCoast {
+    margin-top: 2rem;
+}
+
+.clustered_barchart {
+    margin-top: 15rem;
+    margin-left: 2rem;
+}
+
+.right_components {
+    display: grid;
+    justify-content: space-between;
+}

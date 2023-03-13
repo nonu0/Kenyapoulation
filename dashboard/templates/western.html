@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container">
+    <div class="left_components">
+        <div class="card_female_male">
+            <div class="card_female">
+                <h1>Females</h1>
+                <h2>{{western_females_sum|intcomma}}</h2>
+            </div>
+
+            <div class="card_male">
+                <h1>males</h1>
+                <h2>{{western_males_sum|intcomma}}</h2>
+            </div>
+        </div>
+        <div class="area_barchart">
+            <canvas id="myChartWestern" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <div class="right_components">
+        <div class="ken_map">
+            <div id="container_map"></div>
+        </div>
+        <div class="clustered_barchart">
+            <canvas id="clusteredChartWestern" width="400" height="300"></canvas>
+        </div>
+
+    </div>
+
+</div>
+<!-- charts setup -->
+<script>
+    //setup
+    const dataWestern = {
+        labels: {{ western_counties| safe}},
+    datasets: [{
+        label: 'County size by Area',
+        data: {{ western_area| safe}},
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+    ],
+        borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+    ],
+        borderWidth: 1
+        }]
+    };
+    //config
+    const configWestern = {
+        type: 'bar',
+        data: dataWestern,
+        options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    const myChartWestern = new Chart(
+        document.getElementById('myChartWestern'),
+        configWestern
+    );
+
+    //clusteredChart setup
+    var data2Western = {
+        labels: {{ western_counties| safe}},
+    datasets: [
+        {
+            label: "Males",
+            backgroundColor: "blue",
+            data: {{ western_males | safe}}
+        },
+        {
+            label: "Females",
+            backgroundColor: "green",
+            data: {{ western_females | safe}}
+        }
+    ]
+};
+    //config
+    const config2Western = {
+        type: 'bar',
+        data: data2Western,
+        options: {
+            barValueSpacing: 20,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                    }
+                }]
+            }
+        }
+    };
+
+    const clusteredChartWestern = new Chart(
+        document.getElementById('clusteredChartWestern'),
+        config2Western
+    );
+
+</script>
+<script>
+
+    (async () => {
+
+        const topology = await fetch(
+            'https://code.highcharts.com/mapdata/countries/ke/ke-all.topo.json'
+        ).then(response => response.json());
+
+        // Prepare demo data. The data is joined to map using value of 'hc-key'
+        // property by default. See API docs for 'joinBy' for more info on linking
+        // data and map.
+        const data = [
+            ['ke-we', 5021843],
+        ];
+
+        // Create the chart
+        Highcharts.mapChart('container_map', {
+            chart: {
+                map: topology,
+                backgroundColor: 'rgb(251, 250, 252)'
+            },
+
+
+
+            title: {
+                text: 'Kenyan Population as per Provinces',
+            },
+
+            subtitle: {
+                text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/ke/ke-all.topo.json">Kenya</a>'
+            },
+
+            mapNavigation: {
+                enabled: true,
+                buttonOptions: {
+                    verticalAlign: 'bottom'
+                }
+            },
+
+            colorAxis: {
+                min: 1,
+            },
+
+            series: [{
+                data: data,
+                name: 'Total Population',
+                states: {
+                    hover: {
+                        color: '#BADA55'
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }]
+        });
+
+    })();
+
+
+
+//pie charts
+//setup
+
+</script>
+
+
+{% endblock %}
