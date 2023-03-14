@@ -11,12 +11,14 @@ class Home(TemplateView):
     def get_context_data(self, **kwargs):
         county = County.objects.all().order_by('area')
         population = Population.objects.all()
+        print(population)
         females_sum = sum(females_pop.females for females_pop in population)
         males_sum = sum(males_pop.males for males_pop in population)
         females_pop = [females_pop.females for females_pop in population]
         males_pop = [males_pop.males for males_pop in population]
         county_names = [county_names.name for county_names in county]
         area = [area.area for area in county]
+        print(area)
         context = super().get_context_data(**kwargs)
         context['county_names'] = county_names
         context['females_pop'] = females_pop
@@ -37,6 +39,7 @@ class Coast_data(TemplateView):
         coast_females_sum = sum(coast_females.females for coast_females in coast)
         coast_males_sum = sum(coast_males.males for coast_males in coast)
         coast_females = [coast_females.females for coast_females in coast]
+        print(coast_females)
         coast_males = [coast_males.males for coast_males in coast]
         context = super().get_context_data(**kwargs)
         context['coast_counties'] = coast_counties
