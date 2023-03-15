@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Kenya-database',
+        'NAME': 'dashboard_db',
         'USER': 'postgres',
         'PASSWORD': 'cliffnonu2',
         'HOST': 'ecommerce-db.ckmndpzffjgc.ap-south-1.rds.amazonaws.com',
